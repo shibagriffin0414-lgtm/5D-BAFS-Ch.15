@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKDSE BAFS Ch 15: Partnership Revaluation Mastery</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bafs: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            accent: '#10b981',
+                            gold: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #f1f5f9;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        /* Glassmorphism Card Effect */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card-hover:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(2, 132, 199, 0.3);
+        }
+        /* Mind Map Canvas */
+        #mindmap-canvas {
+            cursor: grab;
+        }
+        #mindmap-canvas:active {
+            cursor: grabbing;
+        }
+        /* T-Account styling */
+        .t-account-table td, .t-account-table th {
+            border-color: #334155;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-emerald-400 flex items-center justify-between p-2 shadow-lg shadow-sky-500/20">
+                    <i class="fa-solid fa-scale-balanced text-slate-950 text-xl font-bold"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold bg-gradient-to-r from-sky-400 to-emerald-400 bg-clip-text text-transparent">
+                        HKDSE BAFS Revision Platform
+                    </h1>
+                    <p class="text-xs text-slate-400">Chapter 15: Partnership Revaluation</p>
+                </div>
+            </div>
+
+            <!-- TAB BUTTONS -->
+            <nav class="hidden md:flex space-x-1 bg-slate-800/80 p-1 rounded-xl border border-slate-700/60">
+                <button onclick="switchTab('mindmap')" id="nav-mindmap" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 text-sky-400 bg-slate-700/80 shadow">
+                    <i class="fa-solid fa-sitemap mr-1.5"></i> Dynamic Mind Map
+                </button>
+                <button onclick="switchTab('notes')" id="nav-notes" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200">
+                    <i class="fa-solid fa-book-open mr-1.5"></i> Detailed Summary
+                </button>
+                <button onclick="switchTab('practice')" id="nav-practice" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200">
+                    <i class="fa-solid fa-brain mr-1.5"></i> Infinite Practice Generator
+                </button>
+                <button onclick="switchTab('videos')" id="nav-videos" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200">
+                    <i class="fa-solid fa-circle-play mr-1.5"></i> Video Resources
+                </button>
+            </nav>
+
+            <!-- Quick Badge -->
+            <div class="hidden lg:flex items-center space-x-2 text-xs text-emerald-400 bg-emerald-950/60 border border-emerald-800/50 px-3 py-1.5 rounded-full">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>HKDSE Curriculum Standard</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE NAVIGATION -->
+    <div class="md:hidden bg-slate-900 border-b border-slate-800 p-2 flex justify-around overflow-x-auto text-xs">
+        <button onclick="switchTab('mindmap')" class="mobile-nav-btn px-3 py-2 rounded-lg text-sky-400 bg-slate-800 font-medium">Mind Map</button>
+        <button onclick="switchTab('notes')" class="mobile-nav-btn px-3 py-2 rounded-lg text-slate-400 font-medium">Summary</button>
+        <button onclick="switchTab('practice')" class="mobile-nav-btn px-3 py-2 rounded-lg text-slate-400 font-medium">Practice</button>
+        <button onclick="switchTab('videos')" class="mobile-nav-btn px-3 py-2 rounded-lg text-slate-400 font-medium">Videos</button>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINERS -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- ================================================================= -->
+        <!-- TAB 1: DYNAMIC MIND MAP -->
+        <!-- ================================================================= -->
+        <section id="tab-mindmap" class="tab-content space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-sitemap text-sky-400"></i> Interactive Conceptual Mind Map
+                    </h2>
+                    <p class="text-sm text-slate-400">Click on nodes to explore double-entry rules, calculations, and DSE key concepts for Chapter 15.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="resetMindmap()" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-xs font-medium text-slate-200 transition">
+                        <i class="fa-solid fa-arrows-rotate mr-1"></i> Reset View
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mind Map Interactive Container -->
+            <div class="relative w-full h-[600px] bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl">
+                <!-- SVG Canvas for Connecting Lines -->
+                <svg id="mindmap-svg" class="absolute inset-0 w-full h-full pointer-events-none z-0"></svg>
+                
+                <!-- Nodes Container -->
+                <div id="mindmap-nodes-container" class="absolute inset-0 z-10 w-full h-full p-4 overflow-auto flex items-center justify-center">
+                    <!-- Dynamic Interactive HTML Structure for Mind Map -->
+                    <div class="mindmap-tree flex flex-col items-center space-y-12 min-w-[900px] py-8">
+                        
+                        <!-- Root Node -->
+                        <div onclick="showNodeDetail('root')" class="mindmap-node cursor-pointer bg-gradient-to-r from-sky-600 to-indigo-600 text-white font-bold px-6 py-4 rounded-xl shadow-lg hover:scale-105 transition border-2 border-sky-300 text-center text-lg shadow-sky-500/20">
+                            <i class="fa-solid fa-layer-group mb-1 block text-2xl"></i>
+                            Partnership Revaluation
+                            <span class="block text-xs font-normal text-sky-200 mt-1">Chapter 15 Textbook Concept Map</span>
+                        </div>
+
+                        <!-- Level 1 Nodes (Aligned with Textbook Sections 15.2 - 15.5) -->
+                        <div class="grid grid-cols-4 gap-6 w-full px-4">
+                            <!-- Branch 1: Section 15.2 -->
+                            <div onclick="showNodeDetail('reasons')" class="mindmap-node cursor-pointer glass-card glass-card-hover p-4 rounded-xl text-center border-t-4 border-sky-400">
+                                <div class="w-10 h-10 rounded-full bg-sky-950 text-sky-400 flex items-center justify-center mx-auto mb-2 font-bold text-xs border border-sky-700">15.2</div>
+                                <h3 class="font-bold text-sky-300 text-sm mb-1">When is Revaluation Required?</h3>
+                                <p class="text-xs text-slate-400">Change in PSR, Admission &amp; Withdrawal</p>
+                            </div>
+
+                            <!-- Branch 2: Section 15.3 -->
+                            <div onclick="showNodeDetail('reval_account')" class="mindmap-node cursor-pointer glass-card glass-card-hover p-4 rounded-xl text-center border-t-4 border-emerald-400">
+                                <div class="w-10 h-10 rounded-full bg-emerald-950 text-emerald-400 flex items-center justify-center mx-auto mb-2 font-bold text-xs border border-emerald-700">15.3</div>
+                                <h3 class="font-bold text-emerald-300 text-sm mb-1">How is Revaluation Recorded?</h3>
+                                <p class="text-xs text-slate-400">4-Step Process &amp; Acc. Depreciation Offset</p>
+                            </div>
+
+                            <!-- Branch 3: Section 15.4 -->
+                            <div onclick="showNodeDetail('goodwill')" class="mindmap-node cursor-pointer glass-card glass-card-hover p-4 rounded-xl text-center border-t-4 border-amber-400">
+                                <div class="w-10 h-10 rounded-full bg-amber-950 text-amber-400 flex items-center justify-center mx-auto mb-2 font-bold text-xs border border-amber-700">15.4</div>
+                                <h3 class="font-bold text-amber-300 text-sm mb-1">Revaluation of Goodwill</h3>
+                                <p class="text-xs text-slate-400">Goodwill A/C Opened vs Not Opened</p>
+                            </div>
+
+                            <!-- Branch 4: Section 15.5 -->
+                            <div onclick="showNodeDetail('depreciation')" class="mindmap-node cursor-pointer glass-card glass-card-hover p-4 rounded-xl text-center border-t-4 border-purple-400">
+                                <div class="w-10 h-10 rounded-full bg-purple-950 text-purple-400 flex items-center justify-center mx-auto mb-2 font-bold text-xs border border-purple-700">15.5</div>
+                                <h3 class="font-bold text-purple-300 text-sm mb-1">Depreciation &amp; SOFP</h3>
+                                <p class="text-xs text-slate-400">Revalued Amount &divide; Remaining Life</p>
+                            </div>
+                        </div>
+
+                        <!-- Sub detail boxes summary preview -->
+                        <div class="grid grid-cols-2 gap-6 w-full max-w-4xl text-xs bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                            <div class="space-y-1">
+                                <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-check mr-1"></i> Textbook Rule (Section 15.2 &amp; 15.3):</span>
+                                <p class="text-slate-300">Overall gain or loss on revaluation is shared immediately among <strong>old partners</strong> in their <strong>old profit and loss sharing ratio</strong> via their <strong>Capital accounts</strong> (not current accounts).</p>
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-amber-400 font-semibold"><i class="fa-solid fa-check mr-1"></i> Textbook Rule (Section 15.4):</span>
+                                <p class="text-slate-300">If a <strong>goodwill account was opened</strong>, changes in goodwill go through the <strong>Revaluation account</strong>. If <strong>not opened</strong>, adjust directly in <strong>Capital accounts</strong>.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Node Detail Modal / Panel -->
+            <div id="node-modal" class="hidden glass-card p-6 rounded-2xl border border-slate-700 relative bg-slate-900/95 transition-all">
+                <button onclick="closeNodeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div id="node-modal-content"></div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- TAB 2: COMPREHENSIVE SUMMARY & REVISION NOTES -->
+        <!-- ================================================================= -->
+        <section id="tab-notes" class="tab-content space-y-8 hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-book-bookmark text-emerald-400"></i> Chapter 15: Partnership Revaluation (Textbook Aligned)
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">Sections 15.2 &ndash; 15.5 &bull; Concept Map, Worked Principles &amp; Exam Answering Tips</p>
+                </div>
+                <span class="px-3 py-1 rounded-full bg-sky-950 text-sky-400 text-xs font-semibold border border-sky-800">
+                    HKDSE Official Textbook Syllabus
+                </span>
+            </div>
+
+            <!-- Section 15.2 & 15.3 Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- Section 15.2: Need for Revaluation -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center space-x-3 text-sky-400">
+                        <i class="fa-solid fa-bullseye text-xl"></i>
+                        <h3 class="text-lg font-bold text-white">Section 15.2: Need for Revaluation</h3>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Revaluation should be performed immediately upon:
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-1 list-disc list-inside bg-slate-950/70 p-3 rounded-xl border border-slate-800">
+                        <li><strong>A change in the profit and loss sharing ratio</strong></li>
+                        <li><strong>Admission of partners</strong></li>
+                        <li><strong>Withdrawal (retirement or death) of partners</strong></li>
+                    </ul>
+                    <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2 text-xs text-slate-300">
+                        <p class="font-semibold text-amber-400"><i class="fa-solid fa-lightbulb mr-1"></i> Why share gain/loss immediately among old partners?</p>
+                        <p>The change in net assets ($\text{Assets} - \text{Liabilities} = \text{Capital}$) arises while the <strong>old partnership</strong> is in operation. If revaluation is not done, when assets are eventually sold, new partners would share holding gains/losses under the new ratio without paying, while retiring partners would lose out without compensation.</p>
+                    </div>
+                </div>
+
+                <!-- Section 15.3: 4 Steps & Double-Entry Rules -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center space-x-3 text-emerald-400">
+                        <i class="fa-solid fa-list-ol text-xl"></i>
+                        <h3 class="text-lg font-bold text-white">Section 15.3: 4 Steps to Record Revaluation</h3>
+                    </div>
+                    <ol class="text-xs text-slate-300 space-y-2 list-decimal list-inside">
+                        <li><strong>Record asset/liability changes:</strong> Increase in asset &rarr; <code class="text-emerald-400">Dr Asset</code>; Decrease &rarr; <code class="text-rose-400">Cr Asset</code>. Increase in liability &rarr; <code class="text-rose-400">Cr Liability</code>; Decrease &rarr; <code class="text-emerald-400">Dr Liability</code>.</li>
+                        <li><strong>Post corresponding entries</strong> to the <code class="text-sky-400">Revaluation</code> account.</li>
+                        <li><strong>Compute the overall gain or loss</strong> on revaluation.</li>
+                        <li><strong>Make adjusting entries in old partners' capital accounts</strong> (NOT current accounts!) in their <strong>old profit and loss sharing ratio</strong>.</li>
+                    </ol>
+                    <div class="bg-sky-950/40 p-3 rounded-xl border border-sky-800/60 text-xs text-slate-200">
+                        <strong class="text-sky-400 block mb-1"><i class="fa-solid fa-scissors mr-1"></i> Offsetting Accumulated Depreciation:</strong>
+                        When a tangible non-current asset is revalued, transfer out its accumulated depreciation first:<br>
+                        <span class="code-font text-sky-300">Dr Accumulated depreciation: Asset &nbsp;/&nbsp; Cr Asset</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Textbook Answering Tips: Revaluation Wordings ("to" vs "by") -->
+            <div class="glass-card p-6 rounded-2xl border border-amber-700/40 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                    <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-spell-check"></i> Textbook Answering Tips: Revaluation Wordings ("to" vs "by")
+                    </h3>
+                    <span class="text-xs text-rose-400 font-semibold">Misunderstanding "to" and "by" leads to wrong answers!</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left text-slate-300 border border-slate-700 rounded-lg overflow-hidden">
+                        <thead class="bg-slate-800 text-slate-200 uppercase">
+                            <tr>
+                                <th class="p-3 border-r border-slate-700">Wording Used</th>
+                                <th class="p-3 border-r border-slate-700">Textbook Example</th>
+                                <th class="p-3">Accounting Implication</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 bg-slate-900/60">
+                            <tr>
+                                <td class="p-3 border-r border-slate-700 font-semibold text-sky-300">Percentage of original NBV ("to X%")</td>
+                                <td class="p-3 border-r border-slate-700">"Equipment was to be revalued <strong>to 40%</strong> of the net book value."</td>
+                                <td class="p-3">Revalued amount = $\text{NBV} \times 40\%$<br><span class="text-rose-400">Loss on revaluation = $\text{NBV} \times 60\%$</span></td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border-r border-slate-700 font-semibold text-sky-300">Percentage change ("by X%")</td>
+                                <td class="p-3 border-r border-slate-700">"Net book value of equipment was to be <strong>decreased by 40%</strong>."</td>
+                                <td class="p-3">Revalued amount = $\text{NBV} \times 60\%$<br><span class="text-rose-400">Loss on revaluation = $\text{NBV} \times 40\%$</span></td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border-r border-slate-700 font-semibold text-sky-300">Lump sum change ("by $X")</td>
+                                <td class="p-3 border-r border-slate-700">"Equipment was to be revalued <strong>upwards by $15,000</strong>."</td>
+                                <td class="p-3">Revalued amount = $\text{NBV} + \$15,000$<br><span class="text-emerald-400">Gain on revaluation = $\$15,000$</span></td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border-r border-slate-700 font-semibold text-sky-300">Directly stated ("at $X")</td>
+                                <td class="p-3 border-r border-slate-700">"Equipment was to be revalued <strong>at $15,000</strong>."</td>
+                                <td class="p-3">Revalued amount = $\$15,000$<br><span class="text-emerald-400">Gain on revaluation = $\$15,000 - \text{NBV}$</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Section 15.4: Revaluation of Goodwill (Case A vs Case B) -->
+            <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-gem text-amber-400"></i> Section 15.4: Revaluation of Goodwill (Case A vs Case B)
+                </h3>
+                <p class="text-sm text-slate-300">
+                    Goodwill should be revalued together with other separable assets and liabilities. The adjusting entries depend on whether a goodwill account had been opened in the books of the old partnership:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <!-- Case A -->
+                    <div class="bg-slate-900 p-4 rounded-xl border border-emerald-800/60 space-y-2">
+                        <span class="px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-400 font-bold">Case A: A goodwill account HAD been opened</span>
+                        <p class="text-slate-300">Treated just like any other non-current asset through the <strong>Revaluation account</strong>, and Goodwill stays on the new SOFP at its revalued amount:</p>
+                        <div class="p-2.5 bg-slate-950 rounded code-font text-emerald-300 space-y-1">
+                            <div><strong>Increase in goodwill:</strong><br>Dr Goodwill &nbsp;/&nbsp; Cr Revaluation</div>
+                            <div class="text-rose-300 pt-1"><strong>Decrease in goodwill:</strong><br>Dr Revaluation &nbsp;/&nbsp; Cr Goodwill</div>
+                        </div>
+                    </div>
+
+                    <!-- Case B -->
+                    <div class="bg-slate-900 p-4 rounded-xl border border-sky-800/60 space-y-2">
+                        <span class="px-2.5 py-0.5 rounded bg-sky-950 text-sky-400 font-bold">Case B: A goodwill account had NOT been opened</span>
+                        <p class="text-slate-300">Goodwill is <strong>NOT</strong> entered in the Revaluation account and <strong>NO</strong> Goodwill account appears on the new SOFP. Adjust directly in partners' <strong>Capital accounts</strong>:</p>
+                        <div class="p-2.5 bg-slate-950 rounded code-font text-sky-300 space-y-1">
+                            <div>1. <strong>Credit</strong> old partners with Goodwill shared in <strong>old ratio</strong>.</div>
+                            <div class="text-rose-300 pt-1">2. <strong>Debit</strong> new/continuing partners with Goodwill shared in <strong>new ratio</strong>.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 15.5: Effect of Revaluation on Depreciation Charges & Page 96 Summary -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Section 15.5 -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-3">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-purple-400"></i> Section 15.5: Effect on Depreciation Charges
+                    </h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        After revaluation, depreciation should be charged on the <strong>revalued amount</strong> of a tangible non-current asset over its <strong>remaining useful life</strong> (using the revised estimated useful life if adjusted).
+                    </p>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs code-font text-purple-300">
+                        Annual Depreciation = Revalued Amount &divide; Remaining Useful Life
+                    </div>
+                    <p class="text-xs text-slate-400">
+                        <em>Textbook Example (Exhibit 15.6):</em> Machine bought 1 Jan 2018 for $100,000 (10-year life). On 1 Jan 2022 (4 years passed &rarr; <strong>6 years left</strong>), revalued at $90,000. New annual depreciation = <strong class="text-white">$90,000 &divide; 6 = $15,000</strong>.
+                    </p>
+                </div>
+
+                <!-- Page 96 Official Summary Points -->
+                <div class="bg-gradient-to-br from-slate-900 to-sky-950/30 p-6 rounded-2xl border border-sky-800/40 space-y-3">
+                    <h3 class="text-lg font-bold text-sky-400 flex items-center gap-2">
+                        <i class="fa-solid fa-clipboard-check"></i> Textbook Page 96 Official Summary
+                    </h3>
+                    <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                        <li><strong>1(i):</strong> Overall gain or loss on revaluation is shared immediately among old partners in the <strong>old profit and loss sharing ratio</strong>.</li>
+                        <li><strong>1(ii):</strong> A <strong>revaluation account</strong> records gains and losses on revaluation of assets and liabilities.</li>
+                        <li><strong>2:</strong> Assets and liabilities of the new partnership are shown at <strong>revalued amounts</strong> in the SOFP.</li>
+                        <li><strong>3:</strong> Goodwill is revalued together with separable assets/liabilities; entries depend on whether a <strong>goodwill account has been opened or not</strong>.</li>
+                        <li><strong>4:</strong> Depreciation after revaluation is charged on the <strong>revalued amount over its remaining useful life</strong>.</li>
+                        <li><strong>Retiring Partner Note (Ch 14 link):</strong> When a partner withdraws, transfer his <strong>Current Account balance to his Capital Account</strong> before settlement/loan transfer.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- TAB 3: INFINITE PRACTICE QUESTION GENERATOR -->
+        <!-- ================================================================= -->
+        <section id="tab-practice" class="tab-content space-y-6 hidden">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-brain text-emerald-400"></i> Infinite HKDSE Practice Generator
+                    </h2>
+                    <p class="text-sm text-slate-400">Algorithmic exam-style questions aligned with Chapter 15 textbook exhibits and answering tips.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span id="score-display" class="px-3 py-1.5 rounded-lg bg-emerald-950/70 border border-emerald-800 text-emerald-400 text-xs font-bold">
+                        0 Correct
+                    </span>
+                    <button onclick="generateNewQuestion()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-semibold transition shadow-lg shadow-sky-600/20 flex items-center gap-1.5">
+                        <i class="fa-solid fa-shuffle"></i> Next Question
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-5">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <span id="q-category" class="px-3 py-1 rounded-full bg-sky-950 text-sky-400 border border-sky-800 text-xs font-semibold">
+                        Loading Topic...
+                    </span>
+                    <span class="text-xs text-slate-500">Select the best answer</span>
+                </div>
+
+                <!-- Scenario Prompt -->
+                <div id="q-scenario" class="text-sm text-slate-200 space-y-3 leading-relaxed"></div>
+
+                <!-- Multiple Choice Options -->
+                <div id="q-options" class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2"></div>
+
+                <!-- Instant Feedback & Worked Solution -->
+                <div id="q-feedback" class="hidden p-4 rounded-xl border text-xs space-y-2 transition-all"></div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- TAB 4: VIDEO RESOURCES -->
+        <!-- ================================================================= -->
+        <section id="tab-videos" class="tab-content space-y-6 hidden">
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-circle-play text-rose-500"></i> Curated Video Learning Library
+                </h2>
+                <p class="text-sm text-slate-400">HKDSE Partnership Accounting Tutorial Videos & Walkthroughs.</p>
+            </div>
+
+            <!-- Video Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Video 1 -->
+                <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden flex flex-col">
+                    <div class="aspect-video w-full bg-slate-950">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/culNxSZiFmQ" title="Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-white text-base">Video 1</h3>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden flex flex-col">
+                    <div class="aspect-video w-full bg-slate-950">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/K-WwcMOYtcU" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-white text-base">Video 2</h3>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden flex flex-col">
+                    <div class="aspect-video w-full bg-slate-950">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/y_mbKMMTn-E" title="Video 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-white text-base">Video 3</h3>
+                    </div>
+                </div>
+
+                <!-- Video 4 -->
+                <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden flex flex-col">
+                    <div class="aspect-video w-full bg-slate-950">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/G87kLEvjynI" title="Video 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-white text-base">Video 4</h3>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto bg-slate-900 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>HKDSE BAFS Chapter 15 Interactive Revision Suite &bull; Tailored for Hong Kong Secondary Students</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT CORE LOGIC -->
+    <script>
+        // Tab Switcher Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-sky-400', 'bg-slate-700/80', 'shadow');
+                btn.classList.add('text-slate-400');
+            });
+            
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) {
+                activeNav.classList.add('text-sky-400', 'bg-slate-700/80', 'shadow');
+                activeNav.classList.remove('text-slate-400');
+            }
+        }
+        // Mind Map Data & Modal Logic (Aligned with Chapter 15 Textbook)
+        const mindmapDetails = {
+            'root': {
+                title: 'Chapter 15: Partnership Revaluation (Concept Map)',
+                content: `
+                    <p class="text-slate-300 text-sm mb-3">Whenever there is a change in the profit and loss sharing ratio or a change in the composition of a partnership, assets and liabilities should be revalued to their fair values.</p>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs space-y-2">
+                        <p class="text-sky-400 font-bold">Core Textbook Principles (Page 96):</p>
+                        <ul class="list-disc list-inside text-slate-300 space-y-1">
+                            <li>Overall gain or loss on revaluation is shared immediately among old partners in the <strong>old profit and loss sharing ratio</strong>.</li>
+                            <li>Recorded in partners' <strong>Capital accounts</strong> (not current accounts).</li>
+                            <li>New partnership SOFP shows assets and liabilities at their <strong>revalued amounts</strong>.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'reasons': {
+                title: 'Section 15.2: When is Revaluation Required?',
+                content: `
+                    <div class="space-y-3 text-xs text-slate-300">
+                        <p class="text-sm text-slate-200">Revaluation should be performed upon three events:</p>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+                                <strong class="text-sky-400 block mb-1">1. Change in PSR</strong>
+                                Partners change their profit and loss sharing ratio without changing partners.
+                            </div>
+                            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+                                <strong class="text-emerald-400 block mb-1">2. Admission of Partners</strong>
+                                A new partner joins the firm.
+                            </div>
+                            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+                                <strong class="text-amber-400 block mb-1">3. Withdrawal of Partners</strong>
+                                An existing partner retires or passes away.
+                            </div>
+                        </div>
+                        <p class="text-amber-300"><strong>Why?</strong> Holding gains/losses arose during the old partnership. Without immediate revaluation, future asset sales would unfairly distribute gains/losses in the new ratio.</p>
+                    </div>
+                `
+            },
+            'reval_account': {
+                title: 'Section 15.3: How is Revaluation Recorded? (4 Steps)',
+                content: `
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-slate-950 rounded-lg code-font text-slate-300 space-y-1.5">
+                            <p class="text-sky-400 font-bold">Preliminary Step (Tangible Non-Current Assets):</p>
+                            <p>Dr Accumulated depreciation: Asset &nbsp;/&nbsp; Cr Asset (Offset balance)</p>
+                            <p class="text-emerald-400 font-bold pt-1">Step 1 &amp; 2 (Gains &amp; Losses in Revaluation A/C):</p>
+                            <p>&bull; Asset increase / Liability decrease: Dr Asset (or Liability) / Cr Revaluation</p>
+                            <p>&bull; Asset decrease / Liability increase: Dr Revaluation / Cr Asset (or Liability)</p>
+                            <p class="text-amber-400 font-bold pt-1">Step 3 &amp; 4 (Overall Gain or Loss in Old PSR):</p>
+                            <p>&bull; Overall gain: Dr Revaluation / Cr Partners' capital (Old PSR)</p>
+                            <p>&bull; Overall loss: Dr Partners' capital (Old PSR) / Cr Revaluation</p>
+                        </div>
+                    </div>
+                `
+            },
+            'goodwill': {
+                title: 'Section 15.4: Revaluation of Goodwill',
+                content: `
+                    <div class="space-y-3 text-xs text-slate-300">
+                        <p>Goodwill is revalued together with separable assets and liabilities. Entries depend on whether a goodwill account was opened:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-slate-950 p-3 rounded-lg border border-emerald-800/60">
+                                <span class="text-emerald-400 font-bold block mb-1">A. Goodwill Account Opened</span>
+                                Increase: <code class="text-emerald-300">Dr Goodwill / Cr Revaluation</code><br>
+                                Decrease: <code class="text-rose-300">Dr Revaluation / Cr Goodwill</code><br>
+                                Goodwill stays on SOFP at revalued amount.
+                            </div>
+                            <div class="bg-slate-950 p-3 rounded-lg border border-sky-800/60">
+                                <span class="text-sky-400 font-bold block mb-1">B. Goodwill Account NOT Opened</span>
+                                Adjusted directly in <strong>Capital accounts</strong>:<br>
+                                Cr old partners (Old PSR) &amp; Dr new partners (New PSR). No Goodwill on SOFP.
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            'depreciation': {
+                title: 'Section 15.5: Effect on Depreciation Charges',
+                content: `
+                    <div class="space-y-3 text-xs text-slate-300">
+                        <p class="text-slate-200">After revaluation, depreciation is calculated on the <strong>revalued amount</strong> over the asset's <strong>remaining useful life</strong>:</p>
+                        <div class="bg-slate-950 p-3 rounded-lg border border-purple-800/60 code-font text-purple-300">
+                            Annual Depreciation = Revalued Amount &divide; Remaining Useful Life
+                        </div>
+                        <p class="text-slate-400">Note: If the estimated total useful life is also adjusted upon revaluation, use the revised remaining useful life.</p>
+                    </div>
+                `
+            }
+        };
+
+        function showNodeDetail(key) {
+            const modal = document.getElementById('node-modal');
+            const content = document.getElementById('node-modal-content');
+            const data = mindmapDetails[key];
+            if (!data) return;
+
+            content.innerHTML = `
+                <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-sky-400"></i> ${data.title}
+                </h3>
+                ${data.content}
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function closeNodeModal() {
+            document.getElementById('node-modal').classList.add('hidden');
+        }
+
+        function resetMindmap() {
+            closeNodeModal();
+        }
+
+        // =====================================================================
+        // INFINITE PRACTICE QUESTION GENERATOR ENGINE
+        // =====================================================================
+        let currentCorrectOption = null;
+        let scoreCount = 0;
+
+        function randomChoice(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateNewQuestion() {
+            const feedbackBox = document.getElementById('q-feedback');
+            feedbackBox.classList.add('hidden');
+
+            const qType = randomInt(1, 4); // 4 textbook-aligned question templates
+
+            if (qType === 1) {
+                generateRevaluationProfitQuestion();
+            } else if (qType === 2) {
+                generateGoodwillAdjustmentQuestion();
+            } else if (qType === 3) {
+                generatePostRevaluationDepreciationQuestion();
+            } else {
+                generateRetiringPartnerCapitalQuestion();
+            }
+        }
+
+        // Question Type 1: Textbook Revaluation Wordings ("to" vs "by") & Overall Gain/Loss
+        function generateRevaluationProfitQuestion() {
+            const p1 = randomChoice(['Wendy', 'Jimmy', 'Paul', 'Philip']);
+            let p2 = randomChoice(['Yan', 'Sam', 'Mary', 'Jayden']);
+            while (p1 === p2) p2 = randomChoice(['Yan', 'Sam', 'Mary', 'Jayden']);
+
+            const equipCost = randomInt(4, 7) * 100000;
+            const equipAccDep = randomInt(1, 2) * 100000;
+            const equipNBV = equipCost - equipAccDep;
+            const equipGain = randomInt(10, 25) * 10000;
+            const equipRevalued = equipNBV + equipGain;
+
+            const furnNBV = randomInt(10, 20) * 10000;
+            // Textbook wording: "revalued to 60% of net book value" -> 40% loss
+            const furnLoss = furnNBV * 0.4;
+
+            const oldAllowance = 10000;
+            const newAllowance = randomInt(15, 25) * 1000;
+            const allowanceIncrease = newAllowance - oldAllowance;
+
+            const overallGain = equipGain - furnLoss - allowanceIncrease;
+
+            const scenarioText = `
+                <p><strong>${p1}</strong> and <strong>${p2}</strong> were partners sharing profits and losses in the ratio 2:1. Upon a change in profit and loss sharing ratio to 1:1, the following revaluations were agreed:</p>
+                <ul class="list-disc list-inside space-y-1 bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs code-font">
+                    <li>Office equipment (Cost $${equipCost.toLocaleString()}, Accumulated depreciation $${equipAccDep.toLocaleString()}) was revalued <strong>at $${equipRevalued.toLocaleString()}</strong></li>
+                    <li>Furniture &amp; fittings (Net book value $${furnNBV.toLocaleString()}) was revalued <strong>to 60%</strong> of its net book value</li>
+                    <li>Allowance for doubtful accounts was to be increased from $${oldAllowance.toLocaleString()} to $${newAllowance.toLocaleString()}</li>
+                </ul>
+                <p class="font-semibold text-sky-300">What is the overall gain or loss on revaluation? (Textbook Section 15.3)</p>
+            `;
+
+            const correctAnswer = `$${overallGain.toLocaleString()} (Overall gain)`;
+            const trapToVsBy = `$${(equipGain - (furnNBV * 0.6) - allowanceIncrease).toLocaleString()} (Overall gain)`;
+            const trapCostVsNBV = `$${((equipRevalued - equipCost) - furnLoss - allowanceIncrease).toLocaleString()} (Overall loss)`;
+            const trapAllowanceFull = `$${(equipGain - furnLoss - newAllowance).toLocaleString()} (Overall gain)`;
+
+            const options = [
+                { text: `A. ${correctAnswer}`, correct: true },
+                { text: `B. ${trapToVsBy}`, correct: false },
+                { text: `C. ${trapCostVsNBV}`, correct: false },
+                { text: `D. ${trapAllowanceFull}`, correct: false }
+            ];
+
+            options.sort(() => Math.random() - 0.5);
+
+            const explanation = `
+                <p class="font-bold text-emerald-400 mb-1">Textbook Worked Solution (Section 15.3 &amp; Answering Tips):</p>
+                <p>1. Office equipment NBV = $${equipCost.toLocaleString()} &minus; $${equipAccDep.toLocaleString()} = $${equipNBV.toLocaleString()}. Gain = $${equipRevalued.toLocaleString()} &minus; $${equipNBV.toLocaleString()} = <strong class="text-emerald-400">+$${equipGain.toLocaleString()}</strong></p>
+                <p>2. Furniture revalued <strong>to 60%</strong> of NBV &rarr; 40% decrease in value = $${furnNBV.toLocaleString()} &times; 40% = <strong class="text-rose-400">&minus;$${furnLoss.toLocaleString()}</strong></p>
+                <p>3. Increase in allowance for doubtful accounts = $${newAllowance.toLocaleString()} &minus; $${oldAllowance.toLocaleString()} = <strong class="text-rose-400">&minus;$${allowanceIncrease.toLocaleString()}</strong></p>
+                <p class="font-bold text-sky-300 mt-1">Overall gain on revaluation = $${equipGain.toLocaleString()} &minus; $${furnLoss.toLocaleString()} &minus; $${allowanceIncrease.toLocaleString()} = $${overallGain.toLocaleString()}</p>
+            `;
+
+            renderQuestion("Section 15.3: Revaluation Wordings & Overall Gain", scenarioText, options, explanation);
+        }
+
+        // Question Type 2: Goodwill Revaluation (Case A Opened vs Case B Not Opened - Section 15.4)
+        function generateGoodwillAdjustmentQuestion() {
+            const isCaseA = Math.random() < 0.5;
+            const oldGoodwill = 200000;
+            const newGoodwill = randomChoice([260000, 300000, 340000]);
+            const goodwillIncrease = newGoodwill - oldGoodwill;
+
+            if (isCaseA) {
+                // Exhibit 15.3 Case A: Goodwill account HAD been opened
+                const jimmyShare = goodwillIncrease * 0.5;
+                const scenarioText = `
+                    <p><strong>Jimmy</strong> and <strong>Sam</strong> shared profits and losses equally (1:1). A goodwill account of <strong>$${oldGoodwill.toLocaleString()}</strong> had already been opened in the books of the old partnership.</p>
+                    <p>On 1 January 2022, <strong>Steve</strong> was admitted as a partner (new ratio 2:2:1) and goodwill was revalued at <strong>$${newGoodwill.toLocaleString()}</strong>. The goodwill account is to be maintained in the books.</p>
+                    <p class="font-semibold text-sky-300">How is the change in goodwill recorded? (Textbook Section 15.4 Case A)</p>
+                `;
+
+                const correctAnswer = `Dr Goodwill $${goodwillIncrease.toLocaleString()}; Cr Revaluation $${goodwillIncrease.toLocaleString()}`;
+                const optionB = `Dr Goodwill $${newGoodwill.toLocaleString()}; Cr Revaluation $${newGoodwill.toLocaleString()}`;
+                const optionC = `Dr Capital: Jimmy & Sam $${jimmyShare.toLocaleString()} each; Cr Goodwill $${goodwillIncrease.toLocaleString()}`;
+                const optionD = `Dr Revaluation $${goodwillIncrease.toLocaleString()}; Cr Goodwill $${goodwillIncrease.toLocaleString()}`;
+
+                const options = [
+                    { text: `A. ${correctAnswer}`, correct: true },
+                    { text: `B. ${optionB}`, correct: false },
+                    { text: `C. ${optionC}`, correct: false },
+                    { text: `D. ${optionD}`, correct: false }
+                ];
+                options.sort(() => Math.random() - 0.5);
+
+                const explanation = `
+                    <p class="font-bold text-emerald-400 mb-1">Textbook Worked Solution (Section 15.4 Case A):</p>
+                    <p>Because a goodwill account <strong>had already been opened</strong> ($${oldGoodwill.toLocaleString()}), only the <strong>increase in goodwill</strong> ($${newGoodwill.toLocaleString()} &minus; $${oldGoodwill.toLocaleString()} = $${goodwillIncrease.toLocaleString()}) is recorded in the Revaluation account.</p>
+                    <p class="font-bold text-sky-300 mt-1">Entry: Dr Goodwill $${goodwillIncrease.toLocaleString()} / Cr Revaluation $${goodwillIncrease.toLocaleString()}</p>
+                `;
+                renderQuestion("Section 15.4 (Case A): Goodwill Account Opened", scenarioText, options, explanation);
+            } else {
+                // Exhibit 15.5 Case B: Goodwill account had NOT been opened
+                const jimmyOld = newGoodwill * 0.5;
+                const jimmyNew = newGoodwill * 0.4;
+                const netCreditJimmy = jimmyOld - jimmyNew;
+
+                const scenarioText = `
+                    <p><strong>Jimmy</strong> and <strong>Sam</strong> shared profits and losses equally (1:1). <strong>No goodwill account had been opened</strong> in the books of the old partnership.</p>
+                    <p>On 1 January 2022, <strong>Steve</strong> was admitted as a partner and the new profit and loss sharing ratio became <strong>2 : 2 : 1</strong>. Goodwill was valued at <strong>$${newGoodwill.toLocaleString()}</strong>, and no goodwill account was to be opened in the new partnership.</p>
+                    <p class="font-semibold text-sky-300">What is the net adjustment to Jimmy's Capital account for goodwill? (Textbook Section 15.4 Case B)</p>
+                `;
+
+                const correctAnswer = `Credited by $${netCreditJimmy.toLocaleString()}`;
+                const optionB = `Debited by $${netCreditJimmy.toLocaleString()}`;
+                const optionC = `Credited by $${jimmyOld.toLocaleString()}`;
+                const optionD = `Debited by $${jimmyNew.toLocaleString()}`;
+
+                const options = [
+                    { text: `A. ${correctAnswer}`, correct: true },
+                    { text: `B. ${optionB}`, correct: false },
+                    { text: `C. ${optionC}`, correct: false },
+                    { text: `D. ${optionD}`, correct: false }
+                ];
+                options.sort(() => Math.random() - 0.5);
+
+                const explanation = `
+                    <p class="font-bold text-emerald-400 mb-1">Textbook Worked Solution (Section 15.4 Case B - Exhibit 15.5):</p>
+                    <p>1. Goodwill shared in <strong>old ratio</strong> (1/2): Credit Jimmy's Capital = $${newGoodwill.toLocaleString()} &times; 1/2 = <strong>+$${jimmyOld.toLocaleString()}</strong></p>
+                    <p>2. Goodwill shared in <strong>new ratio</strong> (2/5): Debit Jimmy's Capital = $${newGoodwill.toLocaleString()} &times; 2/5 = <strong>&minus;$${jimmyNew.toLocaleString()}</strong></p>
+                    <p class="font-bold text-sky-300 mt-1">Net Adjustment = Credited by $${netCreditJimmy.toLocaleString()} (Goodwill does NOT enter the Revaluation account).</p>
+                `;
+                renderQuestion("Section 15.4 (Case B): Goodwill Account Not Opened", scenarioText, options, explanation);
+            }
+        }
+
+        // Question Type 3: Section 15.5 Effect of Revaluation on Depreciation Charges (Exhibit 15.6)
+        function generatePostRevaluationDepreciationQuestion() {
+            const cost = randomInt(1, 4) * 100000;
+            const totalLife = 10;
+            const yearsPassed = randomChoice([2, 4, 5]);
+            const remainingLife = totalLife - yearsPassed;
+            const revaluedAmount = remainingLife * randomInt(12, 30) * 1000;
+            const annualDep = revaluedAmount / remainingLife;
+
+            const scenarioText = `
+                <p>A partnership purchased a machine for <strong>$${cost.toLocaleString()}</strong> on 1 January 2018. It was expected to have a useful life of <strong>${totalLife} years</strong> and no residual value, depreciated on a straight-line basis.</p>
+                <p>Exactly <strong>${yearsPassed} years later</strong>, upon a change in profit and loss sharing ratio, the machine was revalued at <strong>$${revaluedAmount.toLocaleString()}</strong> (with no change in its estimated total useful life).</p>
+                <p class="font-semibold text-sky-300">What is the annual depreciation charge for the machine after the revaluation? (Textbook Section 15.5)</p>
+            `;
+
+            const correctAnswer = `$${annualDep.toLocaleString()}`;
+            const trapOriginalLife = `$${(revaluedAmount / totalLife).toLocaleString()}`;
+            const trapOldCost = `$${(cost / totalLife).toLocaleString()}`;
+            const trapYearsPassed = `$${(revaluedAmount / yearsPassed).toLocaleString()}`;
+
+            const options = [
+                { text: `A. ${correctAnswer}`, correct: true },
+                { text: `B. ${trapOriginalLife}`, correct: false },
+                { text: `C. ${trapOldCost}`, correct: false },
+                { text: `D. ${trapYearsPassed}`, correct: false }
+            ];
+            options.sort(() => Math.random() - 0.5);
+
+            const explanation = `
+                <p class="font-bold text-emerald-400 mb-1">Textbook Worked Solution (Section 15.5 - Exhibit 15.6):</p>
+                <p>1. Remaining useful life = ${totalLife} years &minus; ${yearsPassed} years = <strong>${remainingLife} years</strong>.</p>
+                <p>2. After revaluation, depreciation is charged on the <strong>revalued amount</strong> over its <strong>remaining useful life</strong>:</p>
+                <p class="font-bold text-sky-300 mt-1">Annual depreciation = $${revaluedAmount.toLocaleString()} &divide; ${remainingLife} = $${annualDep.toLocaleString()}</p>
+            `;
+
+            renderQuestion("Section 15.5: Post-Revaluation Depreciation", scenarioText, options, explanation);
+        }
+
+        // Question Type 4: Retiring Partner Capital Settlement with Current Account Transfer (Exhibit 15.7)
+        function generateRetiringPartnerCapitalQuestion() {
+            const p1 = "Paul";
+            const initialCapital = randomInt(20, 30) * 10000;
+            const currentAccCredit = randomInt(4, 9) * 10000;
+            const revalLossShare = randomInt(2, 5) * 1000;
+            const goodwillShareOld = randomInt(3, 6) * 10000;
+
+            const loanAmount = initialCapital + currentAccCredit + goodwillShareOld - revalLossShare;
+
+            const scenarioText = `
+                <p>Partner <strong>${p1}</strong> retired from the partnership on 1 April 2022 and Jane was admitted (Exhibit 15.7 scenario). Prior to retirement:</p>
+                <ul class="list-disc list-inside space-y-1 bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs code-font">
+                    <li>${p1}'s Capital account balance: $${initialCapital.toLocaleString()} (Cr)</li>
+                    <li>${p1}'s Current account balance: $${currentAccCredit.toLocaleString()} (Cr)</li>
+                    <li>${p1}'s share of <strong>loss on revaluation</strong> (old ratio): $${revalLossShare.toLocaleString()}</li>
+                    <li>${p1}'s share of goodwill (shared in old ratio): $${goodwillShareOld.toLocaleString()}</li>
+                </ul>
+                <p class="font-semibold text-sky-300">If the balance due to ${p1} was retained as a long-term loan to the new partnership, what is the loan amount? (Textbook Exhibit 15.7)</p>
+            `;
+
+            const correctAnswer = `$${loanAmount.toLocaleString()}`;
+            const trapForgetCurrent = `$${(initialCapital + goodwillShareOld - revalLossShare).toLocaleString()}`;
+            const trapAddLoss = `$${(initialCapital + currentAccCredit + goodwillShareOld + revalLossShare).toLocaleString()}`;
+            const trapForgetGoodwill = `$${(initialCapital + currentAccCredit - revalLossShare).toLocaleString()}`;
+
+            const options = [
+                { text: `A. ${correctAnswer}`, correct: true },
+                { text: `B. ${trapForgetCurrent}`, correct: false },
+                { text: `C. ${trapAddLoss}`, correct: false },
+                { text: `D. ${trapForgetGoodwill}`, correct: false }
+            ];
+
+            options.sort(() => Math.random() - 0.5);
+
+            const explanation = `
+                <p class="font-bold text-emerald-400 mb-1">Textbook Worked Solution (Exhibit 15.7):</p>
+                <p>1. When a partner withdraws, transfer his <strong>Current account balance</strong> to his Capital account (+$${currentAccCredit.toLocaleString()}).</p>
+                <p>2. Credit Goodwill shared in old ratio (+$${goodwillShareOld.toLocaleString()}) and Debit share of Revaluation loss (&minus;$${revalLossShare.toLocaleString()}).</p>
+                <p class="font-bold text-sky-300 mt-1">Loan from ${p1} = $${initialCapital.toLocaleString()} + $${currentAccCredit.toLocaleString()} + $${goodwillShareOld.toLocaleString()} &minus; $${revalLossShare.toLocaleString()} = $${loanAmount.toLocaleString()}</p>
+            `;
+
+            renderQuestion("Exhibit 15.7: Retiring Partner Settlement", scenarioText, options, explanation);
+        }
+
+        // Render Question to UI
+        function renderQuestion(category, scenario, options, explanation) {
+            document.getElementById('q-category').innerText = category;
+            document.getElementById('q-scenario').innerHTML = scenario;
+
+            const optionsContainer = document.getElementById('q-options');
+            optionsContainer.innerHTML = '';
+
+            options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 hover:border-sky-500 transition text-xs font-medium text-slate-200 flex items-center justify-between group";
+                btn.innerHTML = `<span>${opt.text}</span><i class="fa-solid fa-chevron-right text-slate-500 group-hover:text-sky-400 transition"></i>`;
+                btn.onclick = () => checkAnswer(opt.correct, explanation);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Check Answer & Show Solution
+        function checkAnswer(isCorrect, explanation) {
+            const feedbackBox = document.getElementById('q-feedback');
+            feedbackBox.classList.remove('hidden', 'bg-emerald-950/50', 'border-emerald-700', 'bg-rose-950/50', 'border-rose-700');
+
+            if (isCorrect) {
+                scoreCount++;
+                document.getElementById('score-display').innerText = `${scoreCount} Correct`;
+                feedbackBox.classList.add('bg-emerald-950/50', 'border-emerald-700');
+                feedbackBox.innerHTML = `
+                    <div class="flex items-center text-emerald-400 font-bold text-sm">
+                        <i class="fa-solid fa-circle-check mr-2 text-lg"></i> Correct! Excellent HKDSE Application.
+                    </div>
+                    <div class="text-slate-300 border-t border-emerald-800/60 pt-2 mt-2">
+                        ${explanation}
+                    </div>
+                `;
+            } else {
+                feedbackBox.classList.add('bg-rose-950/50', 'border-rose-700');
+                feedbackBox.innerHTML = `
+                    <div class="flex items-center text-rose-400 font-bold text-sm">
+                        <i class="fa-solid fa-circle-xmark mr-2 text-lg"></i> Incorrect. Let's review the steps.
+                    </div>
+                    <div class="text-slate-300 border-t border-rose-800/60 pt-2 mt-2">
+                        ${explanation}
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize App on Load
+        window.onload = function() {
+            generateNewQuestion();
+        }
+    </script>
+</body>
+</html>
